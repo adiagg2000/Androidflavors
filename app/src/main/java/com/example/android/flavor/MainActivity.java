@@ -3,6 +3,7 @@ package com.example.android.flavor;
 
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RemoteControlClient;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
 
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         // Create an ArrayList of AndroidFlavor objects
         final ArrayList<AndroidFlavor> androidFlavors = new ArrayList<AndroidFlavor>();
         androidFlavors.add(new AndroidFlavor("Donut", "$40", drawable.donut,
@@ -120,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                         AudioManager.AUDIOFOCUS_GAIN);
 
                 if(result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED){
+                    mAudioManager.registerMediaButtonEventReceiver(C);
+
                 MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.this, word.getmAudioResourceId());
                 mediaPlayer.start();
                 mediaPlayer.setOnCompletionListener(mCompletionListener);
